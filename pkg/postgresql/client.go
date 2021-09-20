@@ -48,7 +48,7 @@ func (s *PostgresqlClient) WriteEcho(echo *types.Echo) error {
 func (s *PostgresqlClient) GetEcho(id string) (types.Echo, error) {
 	var echo types.Echo
 
-	tx := s.db.Where("echo.id = ?", id).
+	tx := s.db.Where("echos.id = ?", id).
 		First(&echo)
 	if tx.Error != nil {
 		return types.Echo{}, tx.Error
