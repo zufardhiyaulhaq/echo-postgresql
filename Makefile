@@ -35,6 +35,14 @@ IMAGE_TAG?=$(GIT_COMMIT)
 IMAGE_TRACK=latest
 endif
 
+.PHONY: postgresql.up
+postgresql.up:
+	docker-compose --file docker-compose.yaml up --build -d
+
+.PHONY: postgresql.down
+postgresql.down:
+	docker-compose --file docker-compose.yaml down
+
 .PHONY: run
 run:
 	go run ./main.go
