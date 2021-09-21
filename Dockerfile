@@ -11,6 +11,7 @@ RUN addgroup -g 10001 echo-postgresql && \
     chown echo-postgresql:0 /home/echo-postgresql && \
     chmod g=u /home/echo-postgresql && \
     chmod g=u /etc/passwd
+RUN apk add --update --no-cache alpine-sdk curl
 
 ENV USER=echo-postgresql
 USER 10001
