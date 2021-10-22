@@ -5,12 +5,13 @@ import (
 )
 
 type Settings struct {
-	PostgresqlEventPort string `envconfig:"PORT"`
-	PostgresqlHost      string `envconfig:"POSTGRESQL_HOST"`
-	PostgresqlPort      string `envconfig:"POSTGRESQL_PORT"`
-	PostgresqlDatabase  string `envconfig:"POSTGRESQL_DATABASE"`
-	PostgresqlUser      string `envconfig:"POSTGRESQL_USER"`
-	PostgresqlPassword  string `envconfig:"POSTGRESQL_PASSWORD"`
+	EchoPort           string `envconfig:"ECHO_PORT" default:"5000"`
+	HTTPPort           string `envconfig:"HTTP_PORT" default:"80"`
+	PostgresqlHost     string `envconfig:"POSTGRESQL_HOST"`
+	PostgresqlPort     string `envconfig:"POSTGRESQL_PORT"`
+	PostgresqlDatabase string `envconfig:"POSTGRESQL_DATABASE"`
+	PostgresqlUser     string `envconfig:"POSTGRESQL_USER"`
+	PostgresqlPassword string `envconfig:"POSTGRESQL_PASSWORD"`
 }
 
 func NewSettings() (Settings, error) {
