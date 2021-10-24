@@ -10,11 +10,12 @@ import (
 	"gorm.io/gorm"
 )
 
-type PostgresqlClient struct {
-	db *gorm.DB
+type Interface interface {
+	WriteEcho(echo *types.Echo) error
+	GetEcho(id string) (types.Echo, error)
 }
 
-func New(settings settings.Settings) PostgresqlClient {
+func New(settings settings.Settings) Client {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s DB.name=%s password=%s sslmode=disable",
 		settings.PostgresqlHost,
 		settings.PostgresqlPort,
@@ -32,12 +33,16 @@ func New(settings settings.Settings) PostgresqlClient {
 		log.Fatal(err)
 	}
 
-	return PostgresqlClient{
+	return Client{
 		db: gormDB,
 	}
 }
 
-func (s *PostgresqlClient) WriteEcho(echo *types.Echo) error {
+type Client struct {
+	db *gorm.DB
+}
+
+func (s Client) WriteEcho(echo *types.Echo) error {
 	tx := s.db.Save(&echo)
 	if tx.Error != nil {
 		return tx.Error
@@ -45,7 +50,7 @@ func (s *PostgresqlClient) WriteEcho(echo *types.Echo) error {
 	return nil
 }
 
-func (s *PostgresqlClient) GetEcho(id string) (types.Echo, error) {
+func (s Client) GetEcho(id string) (types.Echo, error) {
 	var echo types.Echo
 
 	tx := s.db.Where("echos.id = ?", id).

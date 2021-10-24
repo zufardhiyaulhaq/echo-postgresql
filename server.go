@@ -15,10 +15,10 @@ import (
 
 type Server struct {
 	settings settings.Settings
-	client   postgresql_client.PostgresqlClient
+	client   postgresql_client.Interface
 }
 
-func NewServer(settings settings.Settings, client postgresql_client.PostgresqlClient) Server {
+func NewServer(settings settings.Settings, client postgresql_client.Interface) Server {
 	return Server{
 		settings: settings,
 		client:   client,
@@ -82,10 +82,10 @@ func (e Server) ServeHTTP() {
 
 type Handler struct {
 	settings settings.Settings
-	client   postgresql_client.PostgresqlClient
+	client   postgresql_client.Interface
 }
 
-func NewHandler(settings settings.Settings, client postgresql_client.PostgresqlClient) Handler {
+func NewHandler(settings settings.Settings, client postgresql_client.Interface) Handler {
 	return Handler{
 		settings: settings,
 		client:   client,
