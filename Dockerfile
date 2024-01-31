@@ -1,7 +1,7 @@
 #################
 # Base image
 #################
-FROM alpine:3.12 as echo-postgresql-base
+FROM alpine:3.19.1 as echo-postgresql-base
 
 USER root
 
@@ -20,7 +20,7 @@ WORKDIR /home/echo-postgresql
 #################
 # Builder image
 #################
-FROM golang:1.16-alpine AS echo-postgresql-builder
+FROM golang:1.21-alpine AS echo-postgresql-builder
 RUN apk add --update --no-cache alpine-sdk
 WORKDIR /app
 COPY . .

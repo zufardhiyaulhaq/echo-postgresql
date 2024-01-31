@@ -15,7 +15,7 @@ func main() {
 		panic(err.Error())
 	}
 
-	log.Info().Msg("creating redis client")
+	log.Info().Msg("creating postgresql client")
 	store := postgresql_client.New(settings)
 
 	wg := new(sync.WaitGroup)

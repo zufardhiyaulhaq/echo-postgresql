@@ -17,4 +17,6 @@ Escape character is '^]'.
 
 echo
 echo
+
+curl http://localhost:80/postgresql/test
 ```
