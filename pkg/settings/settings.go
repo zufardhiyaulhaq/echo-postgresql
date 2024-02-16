@@ -5,7 +5,6 @@ import (
 )
 
 type Settings struct {
-	EchoPort           string `envconfig:"ECHO_PORT" default:"5000"`
 	HTTPPort           string `envconfig:"HTTP_PORT" default:"80"`
 	PostgresqlHost     string `envconfig:"POSTGRESQL_HOST"`
 	PostgresqlPort     string `envconfig:"POSTGRESQL_PORT"`

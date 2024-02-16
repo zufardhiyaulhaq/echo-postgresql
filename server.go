@@ -6,7 +6,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"
-	"github.com/tidwall/evio"
 	"github.com/zufardhiyaulhaq/echo-postgresql/pkg/settings"
 	"github.com/zufardhiyaulhaq/echo-postgresql/pkg/types"
 
@@ -22,40 +21,6 @@ func NewServer(settings settings.Settings, client postgresql_client.Interface) S
 	return Server{
 		settings: settings,
 		client:   client,
-	}
-}
-
-func (e Server) ServeEcho() {
-	var events evio.Events
-
-	events.Data = func(c evio.Conn, in []byte) (out []byte, action evio.Action) {
-		id := uuid.NewString()
-		value := string(in)
-
-		echo := types.Echo{
-			ID:   id,
-			Echo: value,
-		}
-
-		err := e.client.WriteEcho(&echo)
-		if err != nil {
-			out = []byte(err.Error())
-			return
-		}
-
-		read, err := e.client.GetEcho(id)
-		if err != nil {
-			out = []byte(err.Error())
-			return
-		}
-
-		out = []byte(read.ID + ":" + read.Echo)
-
-		return
-	}
-
-	if err := evio.Serve(events, "tcp://0.0.0.0:"+e.settings.EchoPort); err != nil {
-		log.Fatal().Err(err)
 	}
 }
 

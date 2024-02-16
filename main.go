@@ -30,11 +30,5 @@ func main() {
 		wg.Done()
 	}()
 
-	go func() {
-		log.Info().Msg("starting echo server")
-		server.ServeEcho()
-		wg.Done()
-	}()
-
 	wg.Wait()
 }
