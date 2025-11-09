@@ -16,7 +16,7 @@ type Interface interface {
 }
 
 func New(settings settings.Settings) Client {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s DB.name=%s password=%s sslmode=disable",
+	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 		settings.PostgresqlHost,
 		settings.PostgresqlPort,
 		settings.PostgresqlUser,
