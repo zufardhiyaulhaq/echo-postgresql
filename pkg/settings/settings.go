@@ -11,6 +11,7 @@ type Settings struct {
 	PostgresqlDatabase string `envconfig:"POSTGRESQL_DATABASE"`
 	PostgresqlUser     string `envconfig:"POSTGRESQL_USER"`
 	PostgresqlPassword string `envconfig:"POSTGRESQL_PASSWORD"`
+	PostgresqlSSLMode  string `envconfig:"POSTGRESQL_SSL_MODE" default:"disable"`
 }
 
 func NewSettings() (Settings, error) {

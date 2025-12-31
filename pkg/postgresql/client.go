@@ -16,12 +16,13 @@ type Interface interface {
 }
 
 func New(settings settings.Settings) Client {
-	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		settings.PostgresqlHost,
 		settings.PostgresqlPort,
 		settings.PostgresqlUser,
 		settings.PostgresqlDatabase,
-		settings.PostgresqlPassword)
+		settings.PostgresqlPassword,
+		settings.PostgresqlSSLMode)
 
 	gormDB, err := gorm.Open(postgres.New(postgres.Config{DSN: dsn}), &gorm.Config{})
 	if err != nil {
