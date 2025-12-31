@@ -1,6 +1,7 @@
 package postgresql
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -16,6 +17,12 @@ type Interface interface {
 }
 
 func New(settings settings.Settings) Client {
+	if settings.PostgresqlSSLMode == "verify-full" {
+		if settings.PostgresqlSSLCertPath == "" || settings.PostgresqlSSLKeyPath == "" {
+			log.Fatal(errors.New("PostgresqlSSLCertPath and PostgresqlSSLKeyPath must be provided when using verify-full SSL mode"))
+		}
+	}
+
 	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		settings.PostgresqlHost,
 		settings.PostgresqlPort,
@@ -23,6 +30,17 @@ func New(settings settings.Settings) Client {
 		settings.PostgresqlDatabase,
 		settings.PostgresqlPassword,
 		settings.PostgresqlSSLMode)
+
+	// Add SSL certificate paths to DSN if provided
+	if settings.PostgresqlSSLRootCertPath != "" {
+		dsn += fmt.Sprintf(" sslrootcert=%s", settings.PostgresqlSSLRootCertPath)
+	}
+	if settings.PostgresqlSSLCertPath != "" {
+		dsn += fmt.Sprintf(" sslcert=%s", settings.PostgresqlSSLCertPath)
+	}
+	if settings.PostgresqlSSLKeyPath != "" {
+		dsn += fmt.Sprintf(" sslkey=%s", settings.PostgresqlSSLKeyPath)
+	}
 
 	gormDB, err := gorm.Open(postgres.New(postgres.Config{DSN: dsn}), &gorm.Config{})
 	if err != nil {
